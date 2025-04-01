@@ -1,0 +1,83 @@
+.container {
+    width: 80%;
+    margin: auto;
+    text-align: center;
+    font-family: Arial, sans-serif;
+  }
+  
+  .input-form input {
+    padding: 5px;
+    margin: 5px;
+  }
+  
+  .input-form button {
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  th, td {
+    border: 1px solid black;
+    padding: 5px;
+    text-align: center;
+  }
+  
+  .gantt-chart {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  .gantt-slot {
+    border: 1px solid black;
+    padding: 10px;
+    margin: 2px;
+    text-align: center;
+    background-color: lightblue;
+    min-width: 40px;
+    position: relative;
+  }
+  
+  .time-label {
+    position: absolute;
+    bottom: -20px;
+    font-size: 12px;
+  }
+  
+  .gantt-chart {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  .gantt-slot {
+    border: 1px solid black;
+    padding: 10px;
+    margin: 2px;
+    text-align: center;
+    background-color: lightblue;
+    min-width: 40px;
+    position: relative;
+  }
+  /*
+  .time-label {
+    position: absolute;
+    bottom: -20px;
+    font-size: 12px;
+  }
+  */
+  .time-label {
+    position: absolute;
+    left: 50%;  /* Centers the label horizontally */
+    transform: translateX(-50%); /* Ensures perfect centering */
+    top: 100%;  /* Places the label below the box */
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+  

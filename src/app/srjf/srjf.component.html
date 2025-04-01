@@ -1,0 +1,64 @@
+<div class="container">
+    <h1>Shortest Remaining Job First (SRJF) Scheduler</h1>
+
+    <!-- Quantum Time Input -->
+    <div class="input-form">
+      <input [(ngModel)]="quantum" type="number" placeholder="Enter Quantum Time" />
+    </div>
+
+    <!-- Job Input Form -->
+    <div class="input-form">
+      <input [(ngModel)]="jobId" placeholder="Enter Job ID" />
+      <input [(ngModel)]="arrivalTime" type="number" placeholder="Enter Arrival Time" />
+      <input [(ngModel)]="burstTime" type="number" placeholder="Enter Burst Time" />
+      <button (click)="addJob()">Add Job</button>
+    </div>
+  
+    <!-- Display Jobs Table -->
+    <h2>Job Queue</h2>
+    <table>
+      <tr>
+        <th>Job ID</th>
+        <th>Arrival Time</th>
+        <th>Burst Time</th>
+        <th>Completion Time</th>
+        <th>Waiting Time</th>
+        <th>Turnaround Time</th>
+        <th>Delete</th>
+      </tr>
+      <tr *ngFor="let job of jobs">
+        <td>{{ job.id }}</td>
+        <td>{{ job.arrival }}</td>
+        <td>{{ job.burst }}</td>
+        <td>{{ job.completion }}</td>
+        <td>{{ job.waiting }}</td>
+        <td>{{ job.turnAround }}</td>
+        <td><button (click)="onClick(job.id)">Delete</button></td>
+      </tr>
+    </table>
+  
+  
+
+    <h2>Gantt Chart</h2>
+<div class="gantt-chart">
+  <div *ngFor="let slot of ganttChart" class="gantt-slot">
+    <div>{{ slot.job }}</div>
+    <span class="time-label">{{ slot.startTime }} - {{ slot.endTime }}</span>
+  </div>
+</div>
+
+
+  <br>
+  <br>
+    <!-- Scheduler Button -->
+     
+    <button (click)="scheduleSRJF()">Run Scheduler</button>
+
+  
+    <!-- Average Waiting and Turnaround Time -->
+    <div>
+      <p>Average Waiting Time: {{ getAverageWaitingTime() }}</p>
+      <p>Average Turnaround Time: {{ getAverageTurnAroundTime() }}</p>
+    </div>
+  </div>
+  

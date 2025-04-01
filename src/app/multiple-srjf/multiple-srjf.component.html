@@ -1,0 +1,193 @@
+<!-- <div>
+  <h2>SRJF Scheduling with Multiple CPUs</h2>
+
+  <label>Number of CPUs:</label>
+  <input type="number" [(ngModel)]="cpuCount" min="1" />
+
+  <label>Quantum Time:</label>
+  <input type="number" [(ngModel)]="quantum" min="1" />
+
+  <h3>Add Job</h3>
+  <label>Job ID:</label>
+  <input type="text" [(ngModel)]="jobId" />
+  <label>Arrival Time:</label>
+  <input type="number" [(ngModel)]="arrivalTime" min="0" />
+  <label>Burst Time:</label>
+  <input type="number" [(ngModel)]="burstTime" min="1" />
+  <button (click)="addJob()">Add Job</button>
+
+  <h3>Job List</h3>
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>Arrival</th>
+      <th>Burst</th>
+      <th>Remaining</th>
+      <th>Completion</th>
+      <th>Turnaround</th>
+      <th>Waiting</th>
+      <th>Action</th>
+    </tr>
+    <tr *ngFor="let job of jobs">
+      <td>{{ job.id }}</td>
+      <td>{{ job.arrival }}</td>
+      <td>{{ job.burst }}</td>
+      <td>{{ job.remaining }}</td>
+      <td>{{ job.completion }}</td>
+      <td>{{ job.turnAround }}</td>
+      <td>{{ job.waiting }}</td>
+      <td><button (click)="onClick(job.id)">Remove</button></td>
+    </tr>
+  </table>
+
+  <button (click)="scheduleSRJF()">Run Scheduler</button>
+
+  <h3>Gantt Chart</h3>
+  <table>
+    <tr>
+      <th>CPU</th>
+      <th>Job</th>
+      <th>Start Time</th>
+      <th>End Time</th>
+    </tr>
+    <tr *ngFor="let slot of ganttChart">
+      <td>{{ slot.cpu }}</td>
+      <td>{{ slot.job }}</td>
+      <td>{{ slot.startTime }}</td>
+      <td>{{ slot.endTime }}</td>
+    </tr>
+  </table>
+
+  <div class="gantt-container">
+    <div *ngFor="let cpu of getCpuList()" class="gantt-row">
+      <div class="gantt-cpu-label">CPU {{cpu}}</div>
+      <div class="gantt-timeline">
+        <div *ngFor="let slot of getGanttSlotsForCpu(cpu)" 
+             class="gantt-slot"
+             [style.width]="calculateSlotWidth(slot) + 'px'"
+             [style.background]="getSlotColor(slot.job)">
+          <div class="gantt-slot-label">{{slot.job}}</div>
+          <div class="gantt-slot-time">{{slot.startTime}}-{{slot.endTime}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Statistics</h3>
+  <p>Average Waiting Time: {{ getAverageWaitingTime() | number:'1.2-2' }}</p>
+  <p>Average Turnaround Time: {{ getAverageTurnAroundTime() | number:'1.2-2' }}</p>
+</div> -->
+
+<div class="scheduler-container">
+  <h2>SRJF Scheduling with Multiple CPUs</h2>
+
+  <div class="control-panel">
+    <div class="control-group">
+      <label>Number of CPUs:</label>
+      <input type="number" [(ngModel)]="cpuCount" min="1" />
+    </div>
+
+    <div class="control-group">
+      <label>Quantum Time:</label>
+      <input type="number" [(ngModel)]="quantum" min="1" />
+    </div>
+  </div>
+
+  <h3>Add Job</h3>
+  <div class="job-form">
+    <div class="control-group">
+      <label>Job ID:</label>
+      <input type="text" [(ngModel)]="jobId" />
+    </div>
+    <div class="control-group">
+      <label>Arrival Time:</label>
+      <input type="number" [(ngModel)]="arrivalTime" min="0" />
+    </div>
+    <div class="control-group">
+      <label>Burst Time:</label>
+      <input type="number" [(ngModel)]="burstTime" min="1" />
+    </div>
+    <button (click)="addJob()">Add Job</button>
+  </div>
+
+  <h3>Job List</h3>
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Arrival</th>
+          <th>Burst</th>
+          <th>Remaining</th>
+          <th>Completion</th>
+          <th>Turnaround</th>
+          <th>Waiting</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let job of jobs">
+          <td>{{ job.id }}</td>
+          <td>{{ job.arrival }}</td>
+          <td>{{ job.burst }}</td>
+          <td>{{ job.remaining }}</td>
+          <td>{{ job.completion }}</td>
+          <td>{{ job.turnAround }}</td>
+          <td>{{ job.waiting }}</td>
+          <td><button (click)="onClick(job.id)">Remove</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="action-buttons">
+    <button (click)="scheduleSRJF()" [disabled]="isScheduling">
+      {{ isScheduling ? 'Scheduling...' : 'Run Scheduler' }}
+    </button>
+    <button (click)="resetScheduler()">Reset Scheduler</button>
+  </div>
+
+  <h3>Gantt Chart</h3>
+  <div class="gantt-container">
+    <div *ngFor="let cpu of getCpuList()" class="gantt-row">
+      <div class="gantt-cpu-label">CPU {{cpu}}</div>
+      <div class="gantt-timeline">
+        <div *ngFor="let slot of getGanttSlotsForCpu(cpu)" 
+             class="gantt-slot"
+             [style.width]="calculateSlotWidth(slot) + 'px'"
+             [style.background]="getSlotColor(slot.job)">
+          <div class="gantt-slot-label">{{slot.job}}</div>
+          <div class="gantt-slot-time">{{slot.startTime}}-{{slot.endTime}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Execution Timeline</h3>
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>CPU</th>
+          <th>Job</th>
+          <th>Start Time</th>
+          <th>End Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let slot of ganttChart">
+          <td>{{ slot.cpu }}</td>
+          <td>{{ slot.job }}</td>
+          <td>{{ slot.startTime }}</td>
+          <td>{{ slot.endTime }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Statistics</h3>
+  <div class="stats-container">
+    <p>Average Waiting Time: {{ getAverageWaitingTime() | number:'1.2-2' }}</p>
+    <p>Average Turnaround Time: {{ getAverageTurnAroundTime() | number:'1.2-2' }}</p>
+  </div>
+</div>
