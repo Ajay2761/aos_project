@@ -367,3 +367,127 @@ tr:hover {
 .examples-container button:hover {
   background-color: #3367D6;
 }
+/* Add to your existing CSS
+.algorithm-selector {
+  margin: 20px 0;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.algorithm-selector button {
+  padding: 10px 15px;
+  background-color: #4285F4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.algorithm-selector button:hover {
+  background-color: #3367D6;
+}
+
+.examples-container {
+  margin: 20px 0;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.examples-container button {
+  padding: 8px 16px;
+  background-color: #34A853;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.examples-container button:hover {
+  background-color: #2D8E47;
+} */
+
+/* ===== Algorithm Selector Buttons ===== */
+.algorithm-selector {
+  margin: 20px 0;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.algorithm-selector button {
+  padding: 10px 15px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* SRJF Button (Blue) */
+.algorithm-selector button:first-child {
+  background-color: #4285F4;
+}
+.algorithm-selector button:first-child:hover {
+  background-color: #3367D6;
+}
+
+/* Round Robin Button (Green) */
+.algorithm-selector button:nth-child(2) {
+  background-color: #34A853;
+}
+.algorithm-selector button:nth-child(2):hover {
+  background-color: #2D8E47;
+}
+
+/* Reset Button (Red) */
+.algorithm-selector button:last-child {
+  background-color: #EA4335;
+}
+.algorithm-selector button:last-child:hover {
+  background-color: #D33426;
+}
+
+/* ===== Example Buttons ===== */
+.examples-container {
+  margin: 20px 0;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.examples-container button {
+  padding: 8px 16px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* SRJF Examples (Purple) */
+.examples-container button:nth-child(1),
+.examples-container button:nth-child(2),
+.examples-container button:nth-child(3) {
+  background-color: #673AB7;
+}
+.examples-container button:nth-child(1):hover,
+.examples-container button:nth-child(2):hover,
+.examples-container button:nth-child(3):hover {
+  background-color: #5E35B1;
+}
+
+/* Round Robin Examples (Teal) */
+.examples-container button:nth-child(4),
+.examples-container button:nth-child(5),
+.examples-container button:nth-child(6) {
+  background-color: #009688;
+}
+.examples-container button:nth-child(4):hover,
+.examples-container button:nth-child(5):hover,
+.examples-container button:nth-child(6):hover {
+  background-color: #00897B;
+}

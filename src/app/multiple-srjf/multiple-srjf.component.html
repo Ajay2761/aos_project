@@ -140,9 +140,18 @@
     </table>
   </div>
 
-  <div class="action-buttons">
+  <!-- <div class="action-buttons">
     <button (click)="scheduleSRJF()" [disabled]="isScheduling">
       {{ isScheduling ? 'Scheduling...' : 'Run Scheduler' }}
+    </button>
+    <button (click)="resetScheduler()">Reset Scheduler</button>
+  </div> -->
+  <div class="algorithm-selector">
+    <button (click)="scheduleSRJF()" [disabled]="isScheduling">
+      {{ isScheduling ? 'Scheduling...' : 'Run SRJF Scheduler' }}
+    </button>
+    <button (click)="scheduleRR()" [disabled]="isScheduling">
+      {{ isScheduling ? 'Scheduling...' : 'Run Round Robin' }}
     </button>
     <button (click)="resetScheduler()">Reset Scheduler</button>
   </div>
@@ -195,5 +204,11 @@
   <button (click)="loadExample(1)">Example 1 (2 CPUs)</button>
   <button (click)="loadExample(2)">Example 2 (3 CPUs)</button>
   <button (click)="loadExample(3)">Example 3 (Staggered)</button>
+</div>
+<h3>Round Robin Examples</h3>
+<div class="examples-container">
+  <button (click)="loadRRExample(1)">RR Example 1 (2 CPUs)</button>
+  <button (click)="loadRRExample(2)">RR Example 2 (Staggered)</button>
+  <button (click)="loadRRExample(3)">RR Example 3 (3 CPUs)</button>
 </div>
 </div>

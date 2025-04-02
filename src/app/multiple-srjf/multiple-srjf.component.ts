@@ -177,425 +177,132 @@ loadExample(exampleNumber: number) {
       break;
   }
 }
-//   scheduleSRJF() {
-//     if (this.jobs.length === 0) {
-//       alert("Please add at least one job before scheduling");
-//       return;
-//     }
+// Add this method to your MultipleSrjfComponent class
+scheduleRR() {
+  if (this.jobs.length === 0) {
+    alert("Please add at least one job before scheduling");
+    return;
+  }
 
-//     this.isScheduling = true;
-//     this.resetJobStates();
-    
-//     let time = 0;
-//     let completedJobs = 0;
-//     let timeline: GanttChartSlot[] = [];
-//     let cpuAvailableTimes: number[] = new Array(this.cpuCount).fill(0);
-//     let currentlyRunningJobs: (string | null)[] = new Array(this.cpuCount).fill(null);
-    
-//     while (completedJobs < this.jobs.length) {
-//       // Get all jobs that have arrived by current time, have remaining work,
-//       // and are not currently running on any CPU
-//       let availableJobs = this.jobs
-//         .filter(job => 
-//           job.arrival <= time && 
-//           job.remaining > 0 &&
-//           !currentlyRunningJobs.includes(job.id)
-//         )
-//         .sort((a, b) => a.remaining - b.remaining);
-
-//       let assignedAnyJob = false;
-
-//       // Assign jobs to available CPUs
-//       for (let cpu = 0; cpu < this.cpuCount; cpu++) {
-//         if (cpuAvailableTimes[cpu] > time) continue; // CPU is busy
-        
-//         if (availableJobs.length === 0) break;
-
-//         let currentJob = availableJobs.shift()!;
-//         let executionTime = Math.min(this.quantum, currentJob.remaining);
-//         let startTime = Math.max(time, cpuAvailableTimes[cpu]);
-//         let endTime = startTime + executionTime;
-
-//         currentJob.remaining -= executionTime;
-//         currentJob.assignedCpu = cpu + 1;
-//         cpuAvailableTimes[cpu] = endTime;
-//         currentlyRunningJobs[cpu] = currentJob.id; // Mark job as running on this CPU
-//         assignedAnyJob = true;
-
-//         if (currentJob.remaining === 0) {
-//           completedJobs++;
-//           currentJob.completion = endTime;
-//           currentJob.turnAround = currentJob.completion - currentJob.arrival;
-//           currentJob.waiting = currentJob.turnAround - currentJob.burst;
-//           currentlyRunningJobs[cpu] = null; // Clear running job when completed
-//         }
-
-//         timeline.push({ job: currentJob.id, cpu: cpu + 1, startTime, endTime });
-
-//         // Remove this job from availableJobs if it exists there (prevent duplicate scheduling)
-//         availableJobs = availableJobs.filter(j => j.id !== currentJob.id);
-//       }
-
-//       // Clear running jobs that have finished their quantum
-//       for (let cpu = 0; cpu < this.cpuCount; cpu++) {
-//         if (cpuAvailableTimes[cpu] <= time && currentlyRunningJobs[cpu] !== null) {
-//           currentlyRunningJobs[cpu] = null;
-//         }
-//       }
-
-//       // Calculate next event time
-//       const nextTimes = [
-//         ...cpuAvailableTimes.filter(t => t > time),
-//         ...this.jobs
-//           .filter(j => j.arrival > time && j.remaining > 0)
-//           .map(j => j.arrival)
-//       ];
-
-//       if (nextTimes.length > 0) {
-//         time = Math.min(...nextTimes);
-//       } else {
-//         break;
-//       }
-//     }
-
-//     this.ganttChart = timeline;
-//     this.isScheduling = false;
-// }
-
-   // CORRECT TIME PRINTING CODE.
-  // scheduleSRJF() {
-  //   if (this.jobs.length === 0) {
-  //     alert("Please add at least one job before scheduling");
-  //     return;
-  //   }
-
-  //   this.isScheduling = true;
-  //   this.resetJobStates();
-    
-  //   let time = 0;
-  //   let completedJobs = 0;
-  //   let timeline: GanttChartSlot[] = [];
-  //   let cpuAvailableTimes: number[] = new Array(this.cpuCount).fill(0);
-    
-  //   while (completedJobs < this.jobs.length) {
-  //     let availableJobs = this.jobs
-  //       .filter(job => job.arrival <= time && job.remaining > 0)
-  //       .sort((a, b) => a.remaining - b.remaining);
-
-  //     let assignedAnyJob = false;
-
-  //     // First, try to assign jobs to CPUs that become available at exactly 'time'
-  //     for (let cpu = 0; cpu < this.cpuCount; cpu++) {
-  //       if (cpuAvailableTimes[cpu] !== time) continue;
-  //       if (availableJobs.length === 0) break;
-
-      //   this.assignJobToCPU(
-      //     cpu,
-      //     availableJobs.shift()!,
-      //     time,
-      //     timeline,
-      //     cpuAvailableTimes,
-      //     () => completedJobs++
-      //   );
-      //   assignedAnyJob = true;
-      // }
-
-      // // Then assign to any available CPUs (including those that became available earlier)
-      // for (let cpu = 0; cpu < this.cpuCount; cpu++) {
-      //   if (cpuAvailableTimes[cpu] > time) continue;
-      //   if (availableJobs.length === 0) break;
-
-      //   this.assignJobToCPU(
-      //     cpu,
-      //     availableJobs.shift()!,
-      //     time,
-//           timeline,
-//           cpuAvailableTimes,
-//           () => completedJobs++
-//         );
-//         assignedAnyJob = true;
-//       }
-
-//       // Calculate next event time
-//       const nextTimes = [
-//         ...cpuAvailableTimes.filter(t => t > time),
-//         ...this.jobs
-//           .filter(j => j.arrival > time && j.remaining > 0)
-//           .map(j => j.arrival)
-//       ];
-
-//       if (nextTimes.length > 0) {
-//         time = Math.min(...nextTimes);
-//       } else {
-//         // Only happens if all jobs are completed
-//         break;
-//       }
-//     }
-
-//     this.ganttChart = timeline;
-//     this.isScheduling = false;
-// }
-
-// Helper function to assign job to CPU and update all necessary state
-// private assignJobToCPU(
-//   cpu: number,
-//   job: any,
-//   currentTime: number,
-//   timeline: GanttChartSlot[],
-//   cpuAvailableTimes: number[],
-//   onCompletion: () => void
-// ) {
-//   const executionTime = Math.min(this.quantum, job.remaining);
-//   const startTime = Math.max(currentTime, cpuAvailableTimes[cpu]);
-//   const endTime = startTime + executionTime;
-
-//   job.remaining -= executionTime;
-//   job.assignedCpu = cpu + 1;
-//   cpuAvailableTimes[cpu] = endTime;
-
-//   if (job.remaining === 0) {
-//     job.completion = endTime;
-//     job.turnAround = job.completion - job.arrival;
-//     job.waiting = job.turnAround - job.burst;
-//     onCompletion();
-//   }
-
-//   timeline.push({
-//     job: job.id,
-//     cpu: cpu + 1,
-//     startTime,
-//     endTime
-//   });
-// }
-
-// This code has seemingly good time updates logic
-//   scheduleSRJF() {
-//     if (this.jobs.length === 0) {
-//       alert("Please add at least one job before scheduling");
-//       return;
-//     }
-
-//     this.isScheduling = true;
-    
-//     // Reset job states
-//     this.resetJobStates();
-    
-//     let time = 0;
-//     let completedJobs = 0;
-//     let timeline: GanttChartSlot[] = [];
-//     let cpuAvailableTimes: number[] = new Array(this.cpuCount).fill(0);
-    
-//     while (completedJobs < this.jobs.length) {
-//       // Get all jobs that have arrived by current time and have remaining work
-//       let availableJobs = this.jobs
-//         .filter(job => job.arrival <= time && job.remaining > 0)
-//         .sort((a, b) => a.remaining - b.remaining);
-
-//       // Assign jobs to available CPUs
-//       let assignedJobs = false;
-//       for (let cpu = 0; cpu < this.cpuCount; cpu++) {
-//         if (cpuAvailableTimes[cpu] > time) continue; // CPU is busy
-        
-//         if (availableJobs.length === 0) break;
-
-//         let currentJob = availableJobs.shift()!;
-//         let executionTime = Math.min(this.quantum, currentJob.remaining);
-//         let startTime = Math.max(time, cpuAvailableTimes[cpu]);
-//         let endTime = startTime + executionTime;
-
-//         currentJob.remaining -= executionTime;
-//         currentJob.assignedCpu = cpu + 1;
-//         cpuAvailableTimes[cpu] = endTime;
-//         assignedJobs = true;
-
-//         if (currentJob.remaining === 0) {
-//           completedJobs++;
-//           currentJob.completion = endTime;
-//           currentJob.turnAround = currentJob.completion - currentJob.arrival;
-//           currentJob.waiting = currentJob.turnAround - currentJob.burst;
-//         }
-
-//         timeline.push({ job: currentJob.id, cpu: cpu + 1, startTime, endTime });
-//       }
-
-//       // Update time to the next relevant event
-//       if (availableJobs.length > 0) {
-//         // There are jobs waiting, move to next CPU availability or next arrival
-//         time = Math.min(...cpuAvailableTimes, ...this.jobs.filter(j => j.arrival > time).map(j => j.arrival));
-//       } else {
-//         // No jobs waiting, move to next arrival or CPU availability
-//         const nextArrival = Math.min(...this.jobs.filter(j => j.arrival > time).map(j => j.arrival));
-//         time = Math.min(nextArrival, ...cpuAvailableTimes);
-//       }
-      
-//       // If all CPUs are busy and no new arrivals, jump to next CPU completion
-//       if (!assignedJobs && availableJobs.length === 0) {
-//         time = Math.min(...cpuAvailableTimes);
-//       }
-//     }
-
-//     this.ganttChart = timeline;
-//     this.isScheduling = false;
-// }
-
-  // WORKING CODE
-  // scheduleSRJF() {
-  //   if (this.jobs.length === 0) {
-  //     alert("Please add at least one job before scheduling");
-  //     return;
-  //   }
-
-  //   this.isScheduling = true;
-    
-  //   // Reset job states
-  //   this.resetJobStates();
-    
-  //   let time = 0;
-  //   let completedJobs = 0;
-  //   let timeline: GanttChartSlot[] = [];
-  //   let cpuAvailableTimes: number[] = new Array(this.cpuCount).fill(0);
-    
-  //   while (completedJobs < this.jobs.length) {
-  //     let availableJobs = this.jobs
-  //       .filter(job => job.arrival <= time && job.remaining > 0)
-  //       .sort((a, b) => a.remaining - b.remaining);
-
-  //     for (let cpu = 0; cpu < this.cpuCount; cpu++) {
-  //       if (availableJobs.length === 0) break;
-
-  //       let currentJob = availableJobs.shift()!;
-  //       let executionTime = Math.min(this.quantum, currentJob.remaining);
-  //       let startTime = Math.max(time, cpuAvailableTimes[cpu]);
-  //       let endTime = startTime + executionTime;
-
-  //       currentJob.remaining -= executionTime;
-  //       currentJob.assignedCpu = cpu + 1;
-  //       cpuAvailableTimes[cpu] = endTime;
-
-  //       if (currentJob.remaining === 0) {
-  //         completedJobs++;
-  //         currentJob.completion = endTime;
-  //         currentJob.turnAround = currentJob.completion - currentJob.arrival;
-  //         currentJob.waiting = currentJob.turnAround - currentJob.burst;
-  //       }
-
-  //       timeline.push({ job: currentJob.id, cpu: cpu + 1, startTime, endTime });
-  //     }
-
-  //     if (availableJobs.length === 0) {
-  //       time++;
-  //     } else {
-  //       time = Math.min(...cpuAvailableTimes);
-  //     }
-  //     console.log("TIME: ", time, " Completed jobs: ", completedJobs, " Cpu available Times: ", ...cpuAvailableTimes, " availableJobs.length ", availableJobs.length)        
-      
-  //   }
-
-  //   this.ganttChart = timeline;
-  //   this.isScheduling = false;
-  // }
-
-
-
-//   scheduleSRJF() {
-//   if (this.jobs.length === 0) {
-//     alert("Please add at least one job before scheduling");
-//     return;
-//   }
-
-//   this.isScheduling = true;
-//   this.resetJobStates();
+  this.isScheduling = true;
+  this.resetJobStates();
   
-//   let time = 0;
-//   let completedJobs = 0;
-//   let timeline: GanttChartSlot[] = [];
+  let time = 0;
+  let completedJobs = 0;
+  let timeline: GanttChartSlot[] = [];
+  let cpuAvailableTimes: number[] = new Array(this.cpuCount).fill(0);
+  let jobQueue: Job[] = [];
+  let currentJobs: {[cpu: number]: Job | null} = {};
   
-//   // Track currently running jobs on each CPU
-//   const runningJobs: (Job | null)[] = new Array(this.cpuCount).fill(null);
-//   // Track remaining quantum for each CPU
-//   const cpuQuantumRemaining: number[] = new Array(this.cpuCount).fill(0);
+  // Initialize current jobs
+  for (let cpu = 0; cpu < this.cpuCount; cpu++) {
+    currentJobs[cpu] = null;
+  }
+
+  while (completedJobs < this.jobs.length) {
+    // Add newly arrived jobs to the queue
+    const newJobs = this.jobs.filter(
+      job => job.arrival === time && job.remaining > 0
+    );
+    jobQueue.push(...newJobs);
+
+    // Check for completed jobs on each CPU
+    for (let cpu = 0; cpu < this.cpuCount; cpu++) {
+      if (cpuAvailableTimes[cpu] <= time && currentJobs[cpu]) {
+        const job = currentJobs[cpu]!;
+        
+        // If job completed
+        if (job.remaining === 0) {
+          job.completion = time;
+          job.turnAround = job.completion - job.arrival;
+          job.waiting = job.turnAround - job.burst;
+          completedJobs++;
+          currentJobs[cpu] = null;
+        } 
+        // If quantum expired but job not completed
+        else {
+          jobQueue.push(job);
+          currentJobs[cpu] = null;
+        }
+      }
+    }
+
+    // Assign jobs to available CPUs
+    for (let cpu = 0; cpu < this.cpuCount; cpu++) {
+      if (cpuAvailableTimes[cpu] <= time && !currentJobs[cpu] && jobQueue.length > 0) {
+        const nextJob = jobQueue.shift()!;
+        const executionTime = Math.min(this.quantum, nextJob.remaining);
+        
+        currentJobs[cpu] = nextJob;
+        nextJob.remaining -= executionTime;
+        cpuAvailableTimes[cpu] = time + executionTime;
+
+        timeline.push({
+          job: nextJob.id,
+          cpu: cpu + 1,
+          startTime: time,
+          endTime: time + executionTime
+        });
+      }
+    }
+
+    // Move time forward
+    const nextEventTime = Math.min(
+      ...cpuAvailableTimes.filter(t => t > time),
+      ...this.jobs
+        .filter(j => j.arrival > time && j.remaining > 0)
+        .map(j => j.arrival)
+    );
+    time = nextEventTime !== Infinity ? nextEventTime : time + 1;
+  }
+
+  this.ganttChart = timeline;
+  this.isScheduling = false;
+}
+
+// Add Round Robin examples
+loadRRExample(exampleNumber: number) {
+  this.resetScheduler();
   
-//   while (completedJobs < this.jobs.length) {
-//     // Check for new arrivals at current time
-//     const newArrivals = this.jobs.filter(job => 
-//       Math.abs(job.arrival - time) < 0.001 && // Account for floating point precision
-//       job.remaining === job.burst
-//     );
-    
-//     // Get all available jobs (including new arrivals)
-//     let availableJobs = this.jobs
-//       .filter(job => job.arrival <= time && job.remaining > 0)
-//       .sort((a, b) => a.remaining - b.remaining);
-
-//     // Check for preemption opportunities
-//     for (let cpu = 0; cpu < this.cpuCount; cpu++) {
-//       const currentJob = runningJobs[cpu];
+  switch (exampleNumber) {
+    case 1:
+      // Example 1: Simple RR example with 2 CPUs
+      this.cpuCount = 2;
+      this.quantum = 2;
+      this.jobs = [
+        { id: 'P1', arrival: 0, burst: 5, remaining: 5, completion: 0, waiting: 0, turnAround: 0 },
+        { id: 'P2', arrival: 1, burst: 3, remaining: 3, completion: 0, waiting: 0, turnAround: 0 },
+        { id: 'P3', arrival: 2, burst: 8, remaining: 8, completion: 0, waiting: 0, turnAround: 0 },
+        { id: 'P4', arrival: 3, burst: 6, remaining: 6, completion: 0, waiting: 0, turnAround: 0 }
+      ];
+      break;
       
-//       if (currentJob && availableJobs.length > 0) {
-//         const shortestAvailable = availableJobs[0];
-//         if (shortestAvailable.remaining < currentJob.remaining) {
-//           // Preempt the current job
-//           timeline.push({
-//             job: currentJob.id,
-//             cpu: cpu + 1,
-//             startTime: time - cpuQuantumRemaining[cpu],
-//             endTime: time
-//           });
-//           runningJobs[cpu] = null;
-//           cpuQuantumRemaining[cpu] = 0;
-//           // Put the preempted job back in available jobs
-//           availableJobs.push(currentJob);
-//           availableJobs.sort((a, b) => a.remaining - b.remaining);
-//         }
-//       }
+    case 2:
+      // Example 2: RR with different arrival times
+      this.cpuCount = 2;
+      this.quantum = 3;
+      this.jobs = [
+        { id: 'P1', arrival: 0, burst: 10, remaining: 10, completion: 0, waiting: 0, turnAround: 0 },
+        { id: 'P2', arrival: 1, burst: 5, remaining: 5, completion: 0, waiting: 0, turnAround: 0 },
+        { id: 'P3', arrival: 3, burst: 8, remaining: 8, completion: 0, waiting: 0, turnAround: 0 },
+        { id: 'P4', arrival: 9, burst: 2, remaining: 2, completion: 0, waiting: 0, turnAround: 0 }
+      ];
+      break;
       
-//       // Assign new job if CPU is idle
-//       if (!runningJobs[cpu] && availableJobs.length > 0) {
-//         const nextJob = availableJobs.shift()!;
-//         runningJobs[cpu] = nextJob;
-//         cpuQuantumRemaining[cpu] = Math.min(this.quantum, nextJob.remaining);
-        
-//         timeline.push({
-//           job: nextJob.id,
-//           cpu: cpu + 1,
-//           startTime: time,
-//           endTime: time + cpuQuantumRemaining[cpu]
-//         });
-//       }
-//     }
-    
-//     // Advance time by the smallest possible increment (0.1)
-//     const timeIncrement = 0.1;
-//     time = parseFloat((time + timeIncrement).toFixed(1));
-    
-//     // Update running jobs
-//     for (let cpu = 0; cpu < this.cpuCount; cpu++) {
-//       if (runningJobs[cpu]) {
-//         const job = runningJobs[cpu]!;
-//         job.remaining = parseFloat((job.remaining - timeIncrement).toFixed(1));
-//         cpuQuantumRemaining[cpu] = parseFloat((cpuQuantumRemaining[cpu] - timeIncrement).toFixed(1));
-        
-//         // Check if job completed
-//         if (job.remaining <= 0) {
-//           job.remaining = 0;
-//           job.completion = time;
-//           job.turnAround = parseFloat((job.completion - job.arrival).toFixed(1));
-//           job.waiting = parseFloat(Math.max(0, job.turnAround - job.burst).toFixed(1)); // Ensure no negative waiting
-//           completedJobs++;
-//           runningJobs[cpu] = null;
-//         }
-//         // Check if quantum expired
-//         else if (cpuQuantumRemaining[cpu] <= 0) {
-//           runningJobs[cpu] = null;
-//         }
-//       }
-//     }
-//   }
-
-//   this.ganttChart = timeline;
-//   this.isScheduling = false;
-// }
-
+    case 3:
+      // Example 3: RR with 3 CPUs
+      this.cpuCount = 3;
+      this.quantum = 2;
+      this.jobs = [
+        { id: 'P1', arrival: 0, burst: 4, remaining: 4, completion: 0, waiting: 0, turnAround: 0 },
+        { id: 'P2', arrival: 0, burst: 3, remaining: 3, completion: 0, waiting: 0, turnAround: 0 },
+        { id: 'P3', arrival: 0, burst: 5, remaining: 5, completion: 0, waiting: 0, turnAround: 0 },
+        { id: 'P4', arrival: 2, burst: 2, remaining: 2, completion: 0, waiting: 0, turnAround: 0 },
+        { id: 'P5', arrival: 3, burst: 4, remaining: 4, completion: 0, waiting: 0, turnAround: 0 }
+      ];
+      break;
+  }
+}
 
   
 
