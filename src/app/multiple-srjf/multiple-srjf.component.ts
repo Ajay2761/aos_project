@@ -133,7 +133,50 @@ export class MultipleSrjfComponent {
     this.ganttChart = timeline;
     this.isScheduling = false;
 }
-
+// Add this method to your MultipleSrjfComponent class
+loadExample(exampleNumber: number) {
+  this.resetScheduler();
+  
+  switch (exampleNumber) {
+    case 1:
+      // Example 1: Simple example with 2 CPUs
+      this.cpuCount = 2;
+      this.quantum = 2;
+      this.jobs = [
+        { id: 'P1', arrival: 0, burst: 6, remaining: 6, completion: 0, waiting: 0, turnAround: 0 },
+        { id: 'P2', arrival: 2, burst: 4, remaining: 4, completion: 0, waiting: 0, turnAround: 0 },
+        { id: 'P3', arrival: 4, burst: 2, remaining: 2, completion: 0, waiting: 0, turnAround: 0 },
+        { id: 'P4', arrival: 6, burst: 8, remaining: 8, completion: 0, waiting: 0, turnAround: 0 }
+      ];
+      break;
+      
+    case 2:
+      // Example 2: More complex example with 3 CPUs
+      this.cpuCount = 3;
+      this.quantum = 3;
+      this.jobs = [
+        { id: 'P1', arrival: 0, burst: 5, remaining: 5, completion: 0, waiting: 0, turnAround: 0 },
+        { id: 'P2', arrival: 1, burst: 3, remaining: 3, completion: 0, waiting: 0, turnAround: 0 },
+        { id: 'P3', arrival: 2, burst: 8, remaining: 8, completion: 0, waiting: 0, turnAround: 0 },
+        { id: 'P4', arrival: 3, burst: 6, remaining: 6, completion: 0, waiting: 0, turnAround: 0 },
+        { id: 'P5', arrival: 4, burst: 4, remaining: 4, completion: 0, waiting: 0, turnAround: 0 }
+      ];
+      break;
+      
+    case 3:
+      // Example 3: Example with staggered arrivals
+      this.cpuCount = 2;
+      this.quantum = 1;
+      this.jobs = [
+        { id: 'P1', arrival: 0, burst: 4, remaining: 4, completion: 0, waiting: 0, turnAround: 0 },
+        { id: 'P2', arrival: 1, burst: 2, remaining: 2, completion: 0, waiting: 0, turnAround: 0 },
+        { id: 'P3', arrival: 2, burst: 1, remaining: 1, completion: 0, waiting: 0, turnAround: 0 },
+        { id: 'P4', arrival: 3, burst: 3, remaining: 3, completion: 0, waiting: 0, turnAround: 0 },
+        { id: 'P5', arrival: 4, burst: 5, remaining: 5, completion: 0, waiting: 0, turnAround: 0 }
+      ];
+      break;
+  }
+}
 //   scheduleSRJF() {
 //     if (this.jobs.length === 0) {
 //       alert("Please add at least one job before scheduling");

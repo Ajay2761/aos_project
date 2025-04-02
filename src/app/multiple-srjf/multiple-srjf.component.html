@@ -190,4 +190,10 @@
     <p>Average Waiting Time: {{ getAverageWaitingTime() | number:'1.2-2' }}</p>
     <p>Average Turnaround Time: {{ getAverageTurnAroundTime() | number:'1.2-2' }}</p>
   </div>
+  <h3>Examples</h3>
+<div class="examples-container">
+  <button (click)="loadExample(1)">Example 1 (2 CPUs)</button>
+  <button (click)="loadExample(2)">Example 2 (3 CPUs)</button>
+  <button (click)="loadExample(3)">Example 3 (Staggered)</button>
+</div>
 </div>
